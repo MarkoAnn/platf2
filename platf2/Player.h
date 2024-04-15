@@ -4,13 +4,17 @@
 #include <iostream>
 #include <vector>
 #include "graphics.h"
+#include "Obstacle.h"
+
+
 #pragma comment(lib,"graphics.lib")
 
 class Player {
 private:
     int x, y; // координаты игрока
     int size; // размер игрока
-
+    int speed = 5;
+   
 public:
     Player(int startX, int startY, int playerSize) : x(startX), y(startY), size(playerSize) {}
     void draw() {
@@ -33,10 +37,26 @@ public:
         line(x + size / 20, y + size / 3, x + size / 10, y + size / 2);
     }
     void fall(int groundY) {
-        if (y < groundY) {
-            y += 5; 
+        if (y + size < groundY) {
+            y += speed; // Продолжаем падение, если игрок находится выше земли
         }
     }
+
+    void checkCollisionWithObstacle(int obstacleTopY, int obstacleLeftX, int obstacleRightX) {
+        if (y + size >= obstacleTopY && y < obstacleTopY && x > obstacleLeftX && x < obstacleRightX) {
+            y = obstacleTopY - size; // Устанавливаем позицию игрока на вершине препятствия
+        }
+    }
+
+  
+    void moveLeft() {
+        x -= speed;
+    }
+
+    void moveRight() {
+        x += speed;
+    }
+
 
     int getY() const {
         return y;

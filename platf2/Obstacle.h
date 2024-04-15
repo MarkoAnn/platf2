@@ -32,6 +32,7 @@ public:
             return endY;
     }
 
+
     int getX1() const {
         return startX;
     }
